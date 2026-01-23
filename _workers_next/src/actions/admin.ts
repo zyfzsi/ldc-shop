@@ -471,11 +471,14 @@ export async function saveNotificationSettings(formData: FormData) {
     const resendFromEmail = (formData.get('resendFromEmail') as string || '').trim()
     const resendFromName = (formData.get('resendFromName') as string || '').trim()
     const resendEnabled = formData.get('resendEnabled') === 'true'
+    const emailLanguageRaw = (formData.get('emailLanguage') as string || '').trim()
+    const emailLanguage = emailLanguageRaw === 'en' ? 'en' : 'zh'
 
     await setSetting('resend_api_key', resendApiKey)
     await setSetting('resend_from_email', resendFromEmail)
     await setSetting('resend_from_name', resendFromName)
     await setSetting('resend_enabled', resendEnabled ? 'true' : 'false')
+    await setSetting('email_language', emailLanguage)
 
     revalidatePath('/admin/notifications')
 }

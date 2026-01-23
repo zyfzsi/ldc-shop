@@ -344,6 +344,8 @@
                 "fromEmail": "Sender Email",
                 "fromEmailHint": "Must be from a domain verified in Resend",
                 "fromName": "Sender Name",
+                "language": "Email language",
+                "languageHint": "Used for order delivery emails. Falls back to Telegram language if not set.",
                 "testLabel": "Test Email",
                 "testPlaceholder": "Enter test email address",
                 "testButton": "Send Test",
@@ -600,6 +602,18 @@
         "clearInbox": "Clear inbox",
         "inboxCleared": "Inbox cleared",
         "unread": "Unread",
+        "desktopNotifications": {
+            "title": "Desktop Notifications",
+            "desc": "Show browser notifications for new messages and updates.",
+            "enabled": "Enabled",
+            "disabled": "Disabled",
+            "unsupported": "Your browser does not support desktop notifications.",
+            "permissionDenied": "Notification permission denied.",
+            "enabledToast": "Desktop notifications enabled",
+            "disabledToast": "Desktop notifications disabled",
+            "testTitle": "Notifications enabled",
+            "testBody": "You'll receive desktop alerts when new messages arrive."
+        },
         "messages": {
             "title": "Contact Admin",
             "titleLabel": "Title",

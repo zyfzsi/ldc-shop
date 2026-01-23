@@ -9,7 +9,7 @@ import { cache } from "react";
 let dbInitialized = false;
 let loginUsersSchemaReady = false;
 let wishlistTablesReady = false;
-const CURRENT_SCHEMA_VERSION = 11;
+const CURRENT_SCHEMA_VERSION = 12;
 
 async function ensureCardKeyDuplicatesAllowed() {
     try {
@@ -196,6 +196,7 @@ async function ensureDatabaseInitialized() {
             username TEXT,
             points INTEGER DEFAULT 0,
             is_blocked INTEGER DEFAULT 0,
+            desktop_notifications_enabled INTEGER DEFAULT 0,
             created_at INTEGER DEFAULT (unixepoch() * 1000),
             last_login_at INTEGER DEFAULT (unixepoch() * 1000)
         );
@@ -363,6 +364,7 @@ async function ensureOrdersColumns() {
 async function ensureLoginUsersColumns() {
     await safeAddColumn('login_users', 'last_checkin_at', 'INTEGER');
     await safeAddColumn('login_users', 'consecutive_days', 'INTEGER DEFAULT 0');
+    await safeAddColumn('login_users', 'desktop_notifications_enabled', 'INTEGER DEFAULT 0');
 }
 
 export async function ensureLoginUsersSchema() {
@@ -372,6 +374,7 @@ export async function ensureLoginUsersSchema() {
     await safeAddColumn('login_users', 'email', 'TEXT');
     await safeAddColumn('login_users', 'points', 'INTEGER DEFAULT 0 NOT NULL');
     await safeAddColumn('login_users', 'is_blocked', 'INTEGER DEFAULT 0');
+    await safeAddColumn('login_users', 'desktop_notifications_enabled', 'INTEGER DEFAULT 0');
     loginUsersSchemaReady = true;
 }
 
@@ -1399,6 +1402,7 @@ async function ensureLoginUsersTable() {
         email TEXT,
         points INTEGER DEFAULT 0 NOT NULL,
         is_blocked BOOLEAN DEFAULT FALSE,
+        desktop_notifications_enabled INTEGER DEFAULT 0,
         created_at INTEGER DEFAULT (unixepoch() * 1000),
         last_login_at INTEGER DEFAULT (unixepoch() * 1000)
     )
@@ -1643,6 +1647,33 @@ export async function updateLoginUserEmail(userId: string, email: string | null)
         await safeAddColumn('login_users', 'email', 'TEXT');
         await db.update(loginUsers)
             .set({ email: email || null, lastLoginAt: new Date() })
+            .where(eq(loginUsers.userId, userId));
+    } catch (error: any) {
+        if (isMissingTableOrColumn(error)) return;
+        throw error;
+    }
+}
+
+export async function getLoginUserDesktopNotificationsEnabled(userId: string): Promise<boolean> {
+    if (!userId) return false;
+    try {
+        const result = await db.select({ enabled: loginUsers.desktopNotificationsEnabled })
+            .from(loginUsers)
+            .where(eq(loginUsers.userId, userId))
+            .limit(1);
+        return Boolean(result[0]?.enabled);
+    } catch (error: any) {
+        if (isMissingTableOrColumn(error)) return false;
+        throw error;
+    }
+}
+
+export async function updateLoginUserDesktopNotificationsEnabled(userId: string, enabled: boolean) {
+    if (!userId) return;
+    try {
+        await ensureLoginUsersSchema();
+        await db.update(loginUsers)
+            .set({ desktopNotificationsEnabled: enabled, lastLoginAt: new Date() })
             .where(eq(loginUsers.userId, userId));
     } catch (error: any) {
         if (isMissingTableOrColumn(error)) return;

@@ -89,7 +89,7 @@ export async function SiteHeader() {
     }
 
     return (
-        <header className="sticky top-0 z-40 w-full border-b border-border/20 bg-gradient-to-b from-background/90 via-background/70 to-background/55 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
+        <header className="sticky top-0 z-40 w-full border-b border-border/20 bg-gradient-to-b from-background/90 via-background/70 to-background/55 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 relative after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-primary/25 after:to-transparent">
             <div className="container flex h-16 items-center gap-2 md:gap-3">
                 <div className="flex items-center gap-4 md:gap-8 min-w-0">
                     <HeaderLogo adminName={firstAdminName} shopNameOverride={shopNameOverride} shopLogoOverride={shopLogoOverride} />
@@ -105,7 +105,7 @@ export async function SiteHeader() {
                         {user ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="relative h-8 w-8 overflow-visible rounded-full bg-background/70 hover:bg-background/90 transition-transform duration-200 hover:-translate-y-0.5">
+                                    <Button variant="ghost" className="relative h-8 w-8 overflow-visible rounded-full bg-background/70 hover:bg-background/90 transition-all duration-200 hover:-translate-y-0.5 hover:ring-2 hover:ring-primary/25 hover:ring-offset-2 hover:ring-offset-background">
                                         <HeaderUnreadBadge initialCount={unreadCount} className="absolute -top-1 -right-1 z-10 pointer-events-none shadow-sm" />
                                         <Avatar className="relative z-0 h-8 w-8">
                                             <AvatarImage src={user.avatar_url || ''} alt={user.name || ''} />

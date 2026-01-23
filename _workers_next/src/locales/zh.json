@@ -344,6 +344,8 @@
                 "fromEmail": "发件人邮箱",
                 "fromEmailHint": "需要在 Resend 验证的域名邮箱",
                 "fromName": "发件人名称",
+                "language": "邮件语言",
+                "languageHint": "用于订单邮件语言，未设置时将回退到 Telegram 语言。",
                 "testLabel": "测试邮件发送",
                 "testPlaceholder": "输入测试邮箱地址",
                 "testButton": "发送测试",
@@ -600,6 +602,18 @@
         "clearInbox": "清空收件箱",
         "inboxCleared": "收件箱已清空",
         "unread": "未读",
+        "desktopNotifications": {
+            "title": "桌面通知",
+            "desc": "当有新消息或更新时显示浏览器通知。",
+            "enabled": "已开启",
+            "disabled": "已关闭",
+            "unsupported": "当前浏览器不支持桌面通知。",
+            "permissionDenied": "通知权限被拒绝。",
+            "enabledToast": "桌面通知已开启",
+            "disabledToast": "桌面通知已关闭",
+            "testTitle": "已开启桌面通知",
+            "testBody": "有新消息时将通过桌面通知提醒你。"
+        },
         "messages": {
             "title": "联系管理员",
             "titleLabel": "标题",
